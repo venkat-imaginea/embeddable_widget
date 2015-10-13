@@ -1,0 +1,11 @@
+{
+  "name": "kcwidget",
+  "version": "0.0.0",
+  "description": "A KnownCircle's widget for Geico",
+  "main": "server.js",
+  "repository": "",
+  "author": "Venkat",
+  "dependencies": {
+   "express": "*"
+  }
+}
