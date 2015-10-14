@@ -498,11 +498,12 @@
                                         }
                                         js = d.createElement(s);
                                         js.id = id;
-                                        js.src = "192.168.0.101:3000/widgets/kc_widget.js";
-                                        //js.src = "https://canary.knowncircle.com/widgets/kc_widget.js";		                
+                                        //js.src = "192.168.0.101:3000/widgets/kc_widget.js";
+                                        js.src = "https://canary.knowncircle.com/widgets/kc_widget.js";		                
                                         js.async = true;
                                         js.defer = true;
-                                        js.setAttribute('data-server', 'http://localhost:3000');
+                                        //js.setAttribute('data-server', 'http://localhost:3000');
+                                        js.setAttribute('data-server', 'https://canary.knowncircle.com');
                                         fjs.parentNode.insertBefore(js, fjs);
                                     }(document, 'script', 'knowncircle-jswidget'));
                                 </script>
