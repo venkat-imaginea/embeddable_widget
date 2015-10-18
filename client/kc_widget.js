@@ -160,7 +160,6 @@
 		+ "}"
 		+ ".kc-refer-widget {"
 		+ "position: relative;"
-		+ "text-align: center;"
 		+ "}"
 		+ ".kc-refer-widget.loading {"
 		+ "opacity: 0.2;"
@@ -170,14 +169,13 @@
 		+ ".kcloader {"
 		+ "display: none;"
 		+ "position: absolute;"
-		+ "background: url('https://cdn.knowncircle.com/app/images/widget/loading31.gif') center center no-repeat;"
-		+ "background-size: 100%;"
+		+ "background: url('https://cdn.knowncircle.com/app/images/widget/loading1.gif') center center no-repeat;"
+		+ "background-size: 10%;"
 		+ "top: 0;"
-		+ "left: 25%;"
-		+ "width: 50%;"
+		+ "width: 80%;"
 		+ "height: 100%;"
 		+ "}"
-		+ ".kc-refer-widget.loading .kcloader{"
+		+ ".kc-refer-widget.loading ~ .kcloader{"
 		+ "display: block;"
 		+ "z-index: 1;"
 		+ "}"
@@ -197,6 +195,7 @@
 		+ "}"
 		+ "#kc_before_login {"
 		+ "margin: 20px 0 30px;"
+		+ "vertical-align: -webkit-baseline-middle;"
 		+ "}"
 		+ "#kc_after_login {"
 		+ "list-style-type: none;"
@@ -230,11 +229,15 @@
 		+ "font-size: 13px;"
 		+ "margin: 15px 0 6px 0;"
 		+ "}"
+		+ ".posRel {"
+		+ "position: relative;"
+		+ "}"
 		+ ".hide  {"
 		+ "display: none !important;"
 		+ "}";
 	var e = d.querySelector(c),
 		createDOM = kcApp.util.createDOM;
+	e.parentNode.className += " posRel";
 	if (!e) {
 		return;
 	}
@@ -289,7 +292,6 @@
 		+ "display: block; width: 128px; height: 34px;"
 		+ "background: url('https://cdn.knowncircle.com/app/images/widget/refer_1.png') 0 0 no-repeat;"
 		+ "background-size: 100%; border-radius: 4px;"
-		+ "margin: 0 auto;"
 		+ "}";
 
 	var e = d.querySelector(c),
@@ -316,7 +318,7 @@
 								"class": "kcloader"
 							},
 							append: {
-								to: e
+								after: e
 							}
 						}),
 		styleEl = createDOM({
@@ -490,7 +492,15 @@
 	// Listen to the FB status from the iframe
 	function listenToLogin(e) {
 		if (e.data) {
-			var data = JSON.parse(e.data);
+			var data = JSON.parse(e.data),
+				triggerWidget = function (action, fbid,  bizid) {
+						if (action && action === 'refer') {
+							kcApp.widget.refer(fbid, bizid);
+						}
+						if(fbid) {
+							kcApp.widget.getFriends(fbid, bizid);
+						}
+				};
 			if (data.type && data.type === 'FB') {
 				var session = data;
 				session.bizid = bizid;
@@ -501,12 +511,13 @@
 				kcApp.session = session;
 				// If action, process
 				if(session.bizid) {
-					if (data.action && data.action === 'refer') {
-							kcApp.widget.refer(session.fbid, session.bizid);
-						}
-						if(session.fbid) {
-							kcApp.widget.getFriends(session.fbid, session.bizid);
-						}
+						triggerWidget(data.action, session.fbid, session.bizid);
+						// if (data.action && data.action === 'refer') {
+						// 	kcApp.widget.refer(session.fbid, session.bizid);
+						// }
+						// if(session.fbid) {
+						// 	kcApp.widget.getFriends(session.fbid, session.bizid);
+						// }
 				}
 				else { // when there's no data-bizid
 					//var profile_uri = 'https://dl.dropboxusercontent.com/u/38077118/geico/insurance-agents/california/san-francisco/marlon-zarate.html';
@@ -520,12 +531,13 @@
 							kcApp.session.bizid = response.biz.bizid;
 							kcApp.session.bizname = response.biz.biz_name;
 							d.querySelector('#widget_status').innerHTML = "See if your friends know " + kcApp.session.bizname.split(' ')[0];
-							if (data.action && data.action === 'refer') {
-								kcApp.widget.refer(session.fbid, response.biz.bizid); // passing the received biz_id
-							}
-							if(session.fbid) {
-								kcApp.widget.getFriends(session.fbid, response.biz.bizid);
-							}
+							triggerWidget(data.action, session.fbid, response.biz.bizid);  // passing the received biz_id
+							// if (data.action && data.action === 'refer') {
+							// 	kcApp.widget.refer(session.fbid, response.biz.bizid); // passing the received biz_id
+							// }
+							// if(session.fbid) {
+							// 	kcApp.widget.getFriends(session.fbid, response.biz.bizid);
+							// }
 						}
 						else {
 							d.querySelector('.kc-refer-widget').parentNode.parentNode.className = "hide"; // hiding the widget wrapper if there's no biz_id
