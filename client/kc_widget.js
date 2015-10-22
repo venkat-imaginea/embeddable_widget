@@ -455,13 +455,13 @@
 
 // Load dependencies in order
 (function() {
-	$script('https://cdn.socialtwist.com/2014100658903/script.js', 'SocialTwist');
+	$script('https://cdn.socialtwist.com/2014100658903-45/script.js', 'SocialTwist');
 	$script.ready('SocialTwist', function() {
 		$script('https://content.socialtwist.com/IntroPageTemplate/intropage/js/intro-a.js', 'STIntro');
 	});
 	$script.ready('STIntro', function() {
 		$script([
-			'https://content.socialtwist.com/themes/2014100658903/1000853/js/params.js',
+			'https://content.socialtwist.com/themes/2014100658903-45/1001169/js/params.js',
 		], 'STAll');
 	});
 }());
