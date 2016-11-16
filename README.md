@@ -1,7 +1,7 @@
 
 ----------------------------------------
-KnownCircle - Friends Connection Widget
+Embeddable Widget
 ----------------------------------------
 
-A KnownCircle's independent  widget, specifically for Geico.
+A simple PoC on how to generate an embeddable widget.
 
